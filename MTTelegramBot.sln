@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotFunctionApp", "MTTelegramBotFunctionApp.csproj", "{929BD03A-B008-4EEE-AC04-49A868A00891}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotFunctionApp", "MTTelegramBotFunctionApp\MTTelegramBotFunctionApp.csproj", "{929BD03A-B008-4EEE-AC04-49A868A00891}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotConsole", "..\MTTelegramBotConsole\MTTelegramBotConsole.csproj", "{061204D7-6600-4AE6-91AC-E6727292C347}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotConsole", "MTTelegramBotConsole\MTTelegramBotConsole.csproj", "{061204D7-6600-4AE6-91AC-E6727292C347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotLibrary", "..\MTTelegramBotLibrary\MTTelegramBotLibrary.csproj", "{D3EADE95-D181-4578-93F9-37818A959826}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTTelegramBotLibrary", "MTTelegramBotLibrary\MTTelegramBotLibrary.csproj", "{D3EADE95-D181-4578-93F9-37818A959826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
