@@ -26,7 +26,6 @@ namespace MTTelegramBotLibrary
     {
         const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
         private static Random random = new Random();
-        private static DB dbcontext;
         private static ConfigurationRoot config;
         private static string accesstoken;
         private static ITelegramBotClient bot; 
@@ -67,10 +66,6 @@ namespace MTTelegramBotLibrary
             var handler = update.Type switch
             {
                 UpdateType.Message => BotOnMessageReceived(bot, update.Message!,log),
-                UpdateType.EditedMessage => BotOnMessageReceived(bot, update.EditedMessage!,log),
-                UpdateType.CallbackQuery => BotOnCallbackQueryReceived(bot, update.CallbackQuery!,log),
-                UpdateType.InlineQuery => BotOnInlineQueryReceived(bot, update.InlineQuery!,log),
-                UpdateType.ChosenInlineResult => BotOnChosenInlineResultReceived(bot, update.ChosenInlineResult!,log),
                 _ => UnknownUpdateHandlerAsync(bot, update,log)
             };
 
@@ -276,46 +271,6 @@ namespace MTTelegramBotLibrary
             
         }
 
-        // Process Inline Keyboard callback data
-        private  async Task BotOnCallbackQueryReceived(ITelegramBotClient botClient, CallbackQuery callbackQuery,ILogger log=null)
-        {
-            log?.LogInformation($"Received {callbackQuery.Data}");
-            await botClient.AnswerCallbackQueryAsync(
-                callbackQueryId: callbackQuery.Id,
-                text: $"Received {callbackQuery.Data}");
-
-            await botClient.SendTextMessageAsync(
-                chatId: callbackQuery.Message.Chat.Id,
-                text: $"Received {callbackQuery.Data}");
-        }
-
-        private  async Task BotOnInlineQueryReceived(ITelegramBotClient botClient, InlineQuery inlineQuery,ILogger log=null)
-        {
-            log?.LogInformation($"Received inline query from: {inlineQuery.From.Id}");
-
-            InlineQueryResult[] results = {
-            // displayed result
-            new InlineQueryResultArticle(
-                id: "3",
-                title: "TgBots",
-                inputMessageContent: new InputTextMessageContent(
-                    "hello"
-                )
-            )
-        };
-
-            await botClient.AnswerInlineQueryAsync(inlineQueryId: inlineQuery.Id,
-                                                   results: results,
-                                                   isPersonal: true,
-                                                   cacheTime: 0);
-        }
-
-        private  Task BotOnChosenInlineResultReceived(ITelegramBotClient botClient, ChosenInlineResult chosenInlineResult,ILogger log=null)
-        {
-            log?.LogInformation($"Received inline result: {chosenInlineResult.ResultId}");
-            return Task.CompletedTask;
-        }
-
         private  Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Update update,ILogger log=null)
         {
             log?.LogInformation($"Unknown update type: {update.Type}");
@@ -331,10 +286,8 @@ namespace MTTelegramBotLibrary
 
         public Device CheckToken(string token,ILogger log)
         {
-            log.LogInformation("Here4");
             using (DB db = BuildDB())
             {
-                log.LogInformation("Here5");
                 Device dev = db.Devices.SingleOrDefault(d => d.DeviceKey.Equals(token));
                 return dev;
             }
@@ -342,7 +295,6 @@ namespace MTTelegramBotLibrary
 
         public Task ForwardSMSToRecepient(Device device,string message,ILogger log)
         {
-            log.LogInformation("Here3");
             return bot.SendTextMessageAsync(
                 device.ClientID,
                 String.Format("Message received from device {0}\nMessage: {1}", device.DeviceName,message)

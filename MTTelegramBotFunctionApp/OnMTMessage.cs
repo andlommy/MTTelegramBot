@@ -28,10 +28,8 @@ namespace MTTelegramBot
             if (token != null)
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                log.LogInformation("Request body: " + requestBody);
                 dynamic data = JsonConvert.DeserializeObject(requestBody);                
                 Device dev = h.CheckToken(token,log);
-                log.LogInformation("Here");
                 if (dev != null)
                 {
                     string messagedate = data.messagedate;

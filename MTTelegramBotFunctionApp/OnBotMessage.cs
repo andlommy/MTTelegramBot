@@ -35,17 +35,11 @@ namespace MTTelegramBot
             try
             {                
                 config = (ConfigurationRoot)new ConfigurationBuilder().AddEnvironmentVariables().Build();
-                
-                
-                
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 Update upd = JsonConvert.DeserializeObject<Update>(requestBody);
-
                 h = new Handlers(config, log);
                 ct = new CancellationToken();
-                log.LogInformation("Request: " + requestBody.ToString());
-                await h.HandleUpdateAsync(upd, ct,log);
-                
+                await h.HandleUpdateAsync(upd, ct,log);                
                 return new OkObjectResult(String.Empty);
             }
             catch (Exception ex)
@@ -56,8 +50,6 @@ namespace MTTelegramBot
                 log.LogError("Requestfailed : " + ex.Data);
                 return new OkObjectResult(String.Empty);
             }
-        }
-
-        
+        }        
     }
 }
